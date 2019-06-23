@@ -6,59 +6,101 @@ class calculator extends Component {
         xxxxx:0,
         v1:0,
         v2:0,
-        isCal:null
+        isCal:null,
+        hasNumber:true
 
-     }
+    }
+
+    nullIt = () => {
+
+        if (this.state.hasNumber ===false ) {
+            document.getElementById('DaInserting').innerHTML = null;
+            //this.setState({hasNumber:1})           
+        }
+
+    }
+
+    okInsert = (num) => {
+        this.nullIt();        
+        let ss = document.getElementById('DaInserting').innerHTML += num;
+        this.setState({
+            hasNumber:true,
+            xxxxx:ss
+            
+        })
+;       
+    }
+
 
     makeAdd = () => {
         
         const firstNum = this.state.xxxxx;
 
+
         this.setState({
             v1:firstNum,
             xxxxx:0,
-            isCal:"add"
+            isCal:"add",
+            hasNumber:false
         }, () => {
             console.log("Add, firstNum is " + firstNum );
             console.log("and v1 is: " + this.state.v1);
             console.log("and isCal is: " + this.state.isCal);
+            console.log("and hasNumber is: " + this.state.hasNumber);
         });
-        
-        document.getElementById('DaInserting').innerHTML = null;
 
     };
 
     makeSubtract = () => {
-        console.log("came to makeSubtract");
+        //console.log("came to makeSubtract");
         
         const firstNum = this.state.xxxxx;
 
         this.setState({
             v1:firstNum,
             xxxxx:0,
-            isCal:"subtract"
+            isCal:"subtract",
+            hasNumber:false
         }, () => {
             console.log("Add, firstNum is " + firstNum );
             console.log("and v1 is: " + this.state.v1);
             console.log("and isCal is: " + this.state.isCal);
         });
         
-        document.getElementById('DaInserting').innerHTML = null;
     }
 
     makeMultiply = () => {
-        console.log("came to makeMultiply");
+        //console.log("came to makeMultiply");
+        const firstNum = this.state.xxxxx;
+
+        this.setState({
+            v1:firstNum,
+            xxxxx:0,
+            isCal:"Multiply",
+            hasNumber:false
+        }, () => {
+            console.log("Add, firstNum is " + firstNum );
+            console.log("and v1 is: " + this.state.v1);
+            console.log("and isCal is: " + this.state.isCal);
+        });        
     }    
 
     makeDivide = () => {
-        console.log("came to makeDivide");
+        const firstNum = this.state.xxxxx;
+
+        this.setState({
+            v1:firstNum,
+            xxxxx:0,
+            isCal:"Divide",
+            hasNumber:false
+        }, () => {
+            console.log("Add, firstNum is " + firstNum );
+            console.log("and v1 is: " + this.state.v1);
+            console.log("and isCal is: " + this.state.isCal);
+        });
     }
 
-    okInsert = (num) => {
-        let ss = document.getElementById('DaInserting').innerHTML += num;
 
-        this.setState({xxxxx:ss})
-    }
 
     // OLDdeAnswer = () => {
     //     //let deSecond = document.getElementById('DaInserting').innerHTML += num;
@@ -91,13 +133,18 @@ class calculator extends Component {
         if (this.state.isCal==="subtract") {
             answer = parseInt(this.state.v1) - parseInt(this.state.xxxxx);
         }
-    
+        else
+        if (this.state.isCal==="Multiply") {
+            answer = parseInt(this.state.v1) * parseInt(this.state.xxxxx);
+        }
+        else
+        if (this.state.isCal==="Divide") {
+            answer = parseInt(this.state.v1) / parseInt(this.state.xxxxx);
+        }
+
         this.setState({
             v2: this.state.v1,
             answer: answer,
-        }, () => {
-            console.log("and the answer is :" + answer);
-            console.log("typeOf :" + typeof(answer));
         })
 
         this.thenReset();
@@ -115,7 +162,7 @@ class calculator extends Component {
         setTimeout(
             () => {
                 document.getElementById('DaInserting').innerHTML = null;
-            }, 1000);
+            }, 1600);
     }
 
 
@@ -126,7 +173,9 @@ class calculator extends Component {
         return (
             <div className="container">
             <div className="row">
-                <div style={{height:64}} className="col-12 card-body m-2 shadow-sm rounded bg-light" id="DaInserting">{ this.state.answer }</div>
+                <div className="col-12" style={{height:64}}>
+                <div className="btn w-100 h-75 m-2 shadow-sm rounded bg-light" id="DaInserting">{ this.state.answer }</div>
+                </div>
             </div>    
             <div className="row">
                 <div className="col-3"><div onClick={() => this.okInsert(7)} className="btn btn-secondary btn-lg m-2 btn-block ">7</div></div>
